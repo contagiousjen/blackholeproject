@@ -1,0 +1,21 @@
+[Imaging options]
+
+Resolution        = 1024, 786
+Iterations        = 250
+Step_size         = 0.16
+
+[Geometry]
+
+Camera_position   = 0.0, 1.0, -20.0
+Look_at           = 0.0, 0.0, 0.0
+Up_vector         = 0.2, 1.0, 0.0
+
+Disk_inner_radius = 2.6
+Disk_outer_radius = 14.0
+Field_of_view     = 1.5
+
+[Materials]
+
+Disk_texture      = default_bg
+Sky_texture       = adisk
+Sky_disk_ratio    = 0.05

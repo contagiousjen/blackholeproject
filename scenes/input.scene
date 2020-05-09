@@ -16,6 +16,6 @@ Field_of_view     = 1.5
 
 [Materials]
 
-Disk_texture      = default_bg
-Sky_texture       = adisk
+Disk_texture      = adisk
+Sky_texture       = default_bg
 Sky_disk_ratio    = 0.05

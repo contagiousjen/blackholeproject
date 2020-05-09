@@ -1,4 +1,4 @@
-## Импорт файлов
+## Импорт файлов проекта
 import config as cfg
 import calculations as clc
 import tracer
@@ -23,6 +23,7 @@ logging.basicConfig(level = logging.DEBUG)
 logger = logging.getLogger(__name__)
 import sys
 import time
+
 
 ##----------------------- Обработка вызова в терминале ----------------------##
 
@@ -59,11 +60,12 @@ for i in range(cfg.NUM_THREADS + 1):
 schedules = []
 for i in range(cfg.NUM_THREADS):
     schedules.append(chunks[ indices[i]:indices[i+1] ])
-    
+
 shared_buffer = multi.Array(ctypes.c_float, clc.num_pixels * 3)
 colour_buffer = clc.tonumpyarray(shared_buffer)
 
 ##--------------------------- Запуск трассировщика --------------------------##
+
 
 start_time = time.time()
 

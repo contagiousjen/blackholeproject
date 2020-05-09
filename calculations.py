@@ -38,13 +38,7 @@ def precalcs():
     view_mtx[:, 0] = left_vector
     view_mtx[:, 1] = f.up_vector
     view_mtx[:, 2] = view_vector
-    
 
-def vec3a(vec): #returns a constant 3-vector array (don't use for varying vectors)
-    return np.outer(ones,vec)
-
-def vec3(x,y,z):
-    return vec3a(np.array([x,y,z]))
 
 def norm(vec):
     return np.sqrt(np.einsum('...i,...i',vec,vec))
@@ -55,10 +49,6 @@ def normalize(vec):
 def sqrnorm(vec):
     return np.einsum('...i,...i',vec,vec)
 
-def sixth(v):
-    tmp = sqrnorm(v)
-    return tmp*tmp*tmp
-
 
 def RK4f(y,h2):
     f = np.zeros(y.shape)
@@ -66,30 +56,19 @@ def RK4f(y,h2):
     f[:,3:6] = - 1.5 * h2 * y[:,0:3] / np.power(sqrnorm(y[:,0:3]),2.5)[:,np.newaxis]
     return f
 
-
-# this blends colours ca and cb by placing ca in front of cb
 def blendcolors(cb,balpha,ca,aalpha):
     return  ca + cb * (balpha*(1.-aalpha))[:,np.newaxis]
 
-
-# this is for the final alpha channel after blending
 def blendalpha(balpha,aalpha):
     return aalpha + balpha*(1.-aalpha)
 
-
-# this is not just for bool, also for floats (as grayscale)
-def saveToImgBool(arr,fname):
-    saveToImg(np.outer(arr,np.array([1.,1.,1.])),fname)
-
-
-#for shared arrays
 
 def tonumpyarray(mp_arr):
     a = np.frombuffer(mp_arr.get_obj(), dtype=np.float32)
     a.shape = ((num_pixels,3))
     return a
 
-def lookup(texarr,uvarrin): #uvarrin is an array of uv coordinates
+def lookup(texarr,uvarrin):
     uvarr = np.clip(uvarrin,0.0,0.999)
 
     uvarr[:,0] *= float(texarr.shape[1])
@@ -97,5 +76,4 @@ def lookup(texarr,uvarrin): #uvarrin is an array of uv coordinates
 
     uvarr = uvarr.astype(int)
 
-    return texarr[  uvarr[:,1], uvarr[:,0] ]
-
+    return texarr[uvarr[:,1], uvarr[:,0]]

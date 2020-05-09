@@ -24,7 +24,7 @@ def raytrace(shared, schedule):
         ## Полезные константные массивы
         ones  = np.ones((pixels_per_chunk))
         ones3 = np.ones((pixels_per_chunk, 3))
-        
+
         upfield = np.outer(ones, np.array([0.,1.,0.]))
         black   = np.outer(ones, np.array([0.,0.,0.]))
 
@@ -53,10 +53,10 @@ def raytrace(shared, schedule):
             old_point = np.copy(point)
 
             y = np.zeros((pixels_per_chunk, 6))
-            
+
             y[:,0:3] = point
             y[:,3:6] = velocity
-            
+
             k1 = clc.RK4f(y, h2)
             k2 = clc.RK4f(y + 0.5 * f.step_size * k1, h2)
             k3 = clc.RK4f(y + 0.5 * f.step_size * k2, h2)
@@ -83,17 +83,17 @@ def raytrace(shared, schedule):
                 colpointsqr = clc.sqrnorm(colpoint)
 
                 phi = np.arctan2(colpoint[:, 0],point[:, 2])
-                        
+
                 uv = np.zeros((pixels_per_chunk, 2))
 
                 uv[:, 0] = ((phi + 2 * np.pi) % (2 * np.pi)) / (2 * np.pi)
                 uv[:, 1] = (np.sqrt(colpointsqr) - f.disk_inner_r) / \
                            (f.disk_outer_r - f.disk_inner_r)
-
-                diskcolor = clc.lookup (f.texarr_disk, np.clip(uv, 0.0, 1.0))
+                
+                diskcolor = clc.lookup(f.texarr_disk, np.clip(uv, 0.0, 1.0))
                 diskalpha = disk_mask * np.clip(clc.sqrnorm(diskcolor) / \
                                                3.0, 0.0, 1.0)
-                
+
                 object_colour = clc.blendcolors(diskcolor, diskalpha, \
                                             object_colour, object_alpha)
                 object_alpha  = clc.blendalpha(diskalpha, object_alpha)
@@ -116,7 +116,7 @@ def raytrace(shared, schedule):
                 object_colour = clc.blendcolors(horizoncolour, horizonalpha, \
                                                 object_colour, object_alpha)
                 object_alpha = clc.blendalpha(horizonalpha, object_alpha)
-            
+
 
         vphi   = np.arctan2(velocity[:, 0], velocity[:, 2])
         vtheta = np.arctan2(velocity[:, 1], clc.norm(velocity[:, [0, 2]]))
@@ -134,7 +134,3 @@ def raytrace(shared, schedule):
 
         gc.collect()
     print('g')
-
-
-
-            

@@ -89,7 +89,7 @@ def raytrace(shared, schedule):
                 uv[:, 0] = ((phi + 2 * np.pi) % (2 * np.pi)) / (2 * np.pi)
                 uv[:, 1] = (np.sqrt(colpointsqr) - f.disk_inner_r) / \
                            (f.disk_outer_r - f.disk_inner_r)
-                
+
                 diskcolor = clc.lookup(f.texarr_disk, np.clip(uv, 0.0, 1.0))
                 diskalpha = disk_mask * np.clip(clc.sqrnorm(diskcolor) / \
                                                3.0, 0.0, 1.0)
@@ -133,4 +133,3 @@ def raytrace(shared, schedule):
         colour_buffer[chunk] = col_bg_and_obj
 
         gc.collect()
-    print('g')
